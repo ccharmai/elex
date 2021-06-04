@@ -7,9 +7,9 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'elex-frontend',
+    title: 'ELEX - components lib',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
@@ -23,10 +23,13 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    { src: '~/assets/scss/main.scss', lang: 'scss' },
+    //{ src: 'vue-select/dist/vue-select.css' }
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/components.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,5 +50,21 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  router: {
+    mode: 'hash'
+  },
+
+  loading: {
+    color: '#FF4969',
+    height: '5px'
+  },
+
+  loadingIndicator: {
+    name: 'folding-cube',
+    color: '#FF4969',
+    background: '#dedede'
   }
+
 }
