@@ -24,7 +24,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     { src: '~/assets/scss/main.scss', lang: 'scss' },
-    //{ src: 'vue-select/dist/vue-select.css' }
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
