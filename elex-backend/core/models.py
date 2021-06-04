@@ -5,6 +5,7 @@ class Person(models.Model):
 	name = models.CharField(max_length=100)
 	password = models.CharField(max_length=250)
 	description = models.TextField(blank=True, null=True)
+	is_admin = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name
@@ -13,6 +14,7 @@ class Person(models.Model):
 class Maker(models.Model):
 	name = models.CharField(max_length=200)
 	description = models.TextField(blank=True, null=True)
+	is_visible = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name
@@ -21,6 +23,7 @@ class Maker(models.Model):
 class Type(models.Model):
 	name = models.CharField(max_length=200)
 	description = models.TextField(blank=True, null=True)
+	is_visible = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name
@@ -30,6 +33,7 @@ class Item(models.Model):
 	maker =models.ForeignKey(Maker, on_delete=models.CASCADE, related_name='items')
 	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='items')
 	name = models.CharField(max_length=200)
+	is_visible = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.name} {self.maker.name}'
@@ -37,6 +41,7 @@ class Item(models.Model):
 
 class Modification(models.Model):
 	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='items')
+	is_visible = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.item.name
@@ -47,6 +52,7 @@ class Property(models.Model):
 	name = models.CharField(max_length=200)
 	value = models.CharField(max_length=100)
 	dimension = models.CharField(max_length=100, blank=True, null=True)
+	is_visible = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.modification.name} - {self.name}'
