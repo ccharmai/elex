@@ -45,7 +45,7 @@
 				</tr>
 			</table>
 
-			<Modal v-if="showModalWindow" @close="showModalWindow = false">
+			<Modal title="EXAMPLE" v-if="showModalWindow" @close="showModalWindow = false">
 				<slot>Модальное окно</slot>
 			</Modal>
 			<Button text="Показать модальное окно" @click="showModalWindow = true"/>
