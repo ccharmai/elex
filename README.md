@@ -1,5 +1,6 @@
 # ELEX
 ### HSE Project
+![ELEX-banner](https://github.com/ccharmai/elex/blob/master/elex-frontend/static/ELEX-banner.png)
 #### Задача проекта - электронная библиотека электронных компонентов.
 ##### [Схема REST API](https://github.com/ccharmai/elex/blob/master/API.md)
 ##### Возможности:
