@@ -11,6 +11,17 @@ class Person(models.Model):
 		return self.name
 
 
+class Token(models.Model):
+	person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='tokens')
+	token = models.CharField(max_length=500)
+	is_active = models.BooleanField(default=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		active_msg = 'активен' if self.is_active else 'не активен'
+		return f'{self.person.name} - {active_msg}'
+
+
 class Maker(models.Model):
 	name = models.CharField(max_length=200)
 	description = models.TextField(blank=True, null=True)

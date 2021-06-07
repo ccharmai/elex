@@ -53,7 +53,7 @@ input {
 	border: none;
 	padding: 10px;
 }
-input[type="text"] {
+input[type="text"], input[type="password"] {
 	outline: none;
 	border: 2px solid #c5c5c5;
 	padding: 10px;
@@ -62,6 +62,12 @@ input[type="text"] {
 	&:focus {
 		border: 2px solid $primaryColor;
 	}
+}
+
+.center__container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 table {
