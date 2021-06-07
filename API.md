@@ -20,7 +20,7 @@ Request:
 
 Responce:
 => {status: 'ok', name: 'Ivan', isAdmin: false, token: 'abcd...'}
-=> {status: 'fail', reason: 'Invalid name or password'}
+=> {status: 'fail', reason: 'Invalid name or password', msg: 'Неверное имя пользователя или пароль'}
 
 Параметры ответа:
 - status (обязательно): ok или false. Успех или провал запроса.
@@ -28,6 +28,7 @@ Responce:
 - isAdmin (status == 'ok'): является ли пользователь администратором.
 - token (status == 'ok'): бессрочный токен доступа. Должен храниться как куки на фронтенде.
 - reason (status == 'fail'): описание причины отказа. Как правило, это неверная пара логин/пароль
+- msg (status == 'fail): сообщение, которое можно будет показать пользователю.
 
 ---
 #### token.info/
@@ -40,13 +41,14 @@ Request:
 
 Responce:
 => {status: 'ok', name: 'Ivan', isAdmin: false}
-=> {status: 'fail', reason: 'Invalid token'}
+=> {status: 'fail', reason: 'Invalid token', msg: 'Неверный токен'}
 
 Параметры ответа:
 - status (обязательно): ok или false. Успех или провал запроса
 - name (status == 'ok'): имя пользователя
 - isAdmin (status == 'ok'): является ли пользователь администратором
 - reason (status == 'fail'): описание причины отказа. Как правило, это неверный токен.
+- msg (status == 'fail): сообщение, которое можно будет показать пользователю.
 
 ---
 #### person.create/
