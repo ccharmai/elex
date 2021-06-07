@@ -13,17 +13,18 @@
 ##### Получаем токен для дальнейших запросов.
 
 Request:
-=> {login: login, password: password}
+=> {name: name, password: password}
 Параметры запроса:
-- login (обязательно) - логин пользователя
+- name (обязательно) - имя пользователя
 - password (обязательно) - пароль пользователя
 
 Responce:
-=> {status: 'ok', isAdmin: false, token: 'abcd...'}
-=> {status: 'fail', reason: 'Invalid login or password'}
+=> {status: 'ok', name: 'Ivan', isAdmin: false, token: 'abcd...'}
+=> {status: 'fail', reason: 'Invalid name or password'}
 
 Параметры ответа:
 - status (обязательно): ok или false. Успех или провал запроса.
+- name (status == 'ok'): имя пользователя.
 - isAdmin (status == 'ok'): является ли пользователь администратором.
 - token (status == 'ok'): бессрочный токен доступа. Должен храниться как куки на фронтенде.
 - reason (status == 'fail'): описание причины отказа. Как правило, это неверная пара логин/пароль
@@ -38,11 +39,12 @@ Request:
 - token (обязательно) - токен доступа.
 
 Responce:
-=> {status: 'ok', isAdmin: false}
+=> {status: 'ok', name: 'Ivan', isAdmin: false}
 => {status: 'fail', reason: 'Invalid token'}
 
 Параметры ответа:
 - status (обязательно): ok или false. Успех или провал запроса
+- name (status == 'ok'): имя пользователя
 - isAdmin (status == 'ok'): является ли пользователь администратором
 - reason (status == 'fail'): описание причины отказа. Как правило, это неверный токен.
     
