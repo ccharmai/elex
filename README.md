@@ -1,7 +1,7 @@
 # ELEX
 ### HSE Project
 #### Задача проекта - электронная библиотека электронных компонентов.
-##### [https://github.com/ccharmai/elex/blob/master/API.md](Схема REST API)
+##### [Схема REST API](https://github.com/ccharmai/elex/blob/master/API.md)
 ##### Возможности:
 * Просмотр, создание и редактирование элементов
 * Регистрация и авторизация пользователей
