@@ -8,18 +8,29 @@
 				</div>
 			</nuxt-link>
 			<div class="menu-slot">
+
 				<!-- no-auth-slot -->
-				<div class="no-auth menu-list">
+				<div class="no-auth menu-list" v-if="!auth.isAuth">
 					<div class="menu-item" v-for="(item, index) in noAuthSlot" :key="index">
+
 						<nuxt-link :to="item.url" class="nuxt-link">
 							<div class="link-compose">
-								<div class="icon"><img v-if="item.icon" :src="item.icon" alt="menu icon"></div>
 								<div class="item-title">{{ item.title }}</div>
 							</div>
 						</nuxt-link>
+
 					</div>
 				</div>
+
 				<!-- auth-slot -->
+				<div class="no-auth menu-list" v-if="auth.isAuth">
+
+					<nuxt-link to="/" class="nuxt-link">
+						<div class="link-compose">Компоненты</div>
+					</nuxt-link>
+
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -31,11 +42,33 @@ export default {
 		noAuthSlot: [
 			{
 				title: 'Авторизация',
-				icon: '/icons/enter.png',
+				action: 'nav',
 				url: '/login',
+			},
+			{
+				title: 'Компоненты',
+				action: 'nav',
+				url: '/',
+			}
+		],
+		authSlot: [
+			{
+				title: 'hello',
+				action: 'nav',
+				url: 'cabinet/'
+			},
+			{
+				title: 'Выход',
+				action: 'nav',
+				url: '/',
 			},
 		],
 	}},
+	computed: {
+		auth() {
+			return this.$store.getters.getAuth;
+		}
+	},
 }
 </script>
 
@@ -71,18 +104,8 @@ export default {
 			&:first-child {
 				border-top: 1px solid rgb(204, 204, 204);
 			}
-			padding: 10px;
 			.link-compose {
-				$iconSize: 20px;
-				display: flex;
-				justify-content: space-between;
-				.icon, .icon img {
-					width: $iconSize;
-					height: $iconSize;
-				}
-				.item-title {
-					margin-left: 10px;
-				}
+				padding: 10px;
 			}
 		}
 	}

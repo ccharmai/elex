@@ -7,6 +7,7 @@ export const state = () => ({
 		name: '',
 		isAdmin: false,
 		token: '',
+		loaded: false,
 	},
 	preloader: false,
 })
@@ -18,6 +19,10 @@ export const mutations = {
 		state.auth.name = payload.name;
 		state.auth.isAdmin = payload.isAdmin;
 		state.auth.token = payload.token;
+	},
+
+	setAuthLoaded(state) {
+		state.auth.loaded = true;
 	},
 
 	setPreloader(state, payload) {
@@ -41,12 +46,16 @@ export const actions = {
 					console.log(res.data)
 					if (res.data.status != 'ok') return ;
 					commit('setAuth', {
-						isAdmin: true,
+						isAuth: true,
 						name: res.data.name,
 						isAdmin: res.data.isAmin,
 						token: cookieToken
 					});
+					commit('setAuthLoaded');
 				})
+		}
+		else {
+			commit('setAuthLoaded');
 		}
 	},
 

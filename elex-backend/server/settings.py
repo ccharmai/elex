@@ -39,7 +39,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
-CSRF_COOKIE_SECURE = False
+#CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'server.urls'
 

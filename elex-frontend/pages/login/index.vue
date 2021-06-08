@@ -1,5 +1,5 @@
 <template>
-	<div class="page_login__wrapper">
+	<div class="page_login__wrapper" v-if="showThisPage">
 		<div class="login-window">
 			<div class="title">Авторизация в <span class="text-logo">ELEX</span></div>
 			<div class="form">
@@ -26,6 +26,7 @@ export default {
 	data() {return {
 		name: '',
 		password: '',
+		showThisPage: false,
 	}},
 	methods: {
 		login() {
@@ -38,6 +39,7 @@ export default {
 						// login here
 						this.$toast.success('Вход выполнен успешно!');
 						this.$store.dispatch('login', { name: res.data.name, isAdmin: res.data.isAdmin, token: res.data.token });
+						this.$router.replace('/');
 					}
 					else {
 						this.$toast.error(res.data.msg);
@@ -47,7 +49,15 @@ export default {
 					this.$store.dispatch('setPreloader', false);
 				})
 		},
-	}
+	},
+	created() {
+		let auth = this.$store.getters.getAuth;
+		if (auth.isAuth) {
+			this.$router.replace('/');
+			this.$toast.info('Вы уже авторизированы');
+		}
+		else this.showThisPage = true;
+	},
 }
 </script>
 

@@ -1,8 +1,10 @@
 <template>
-	<div class="layout_default__wrapper">
-		<TheMenu />
-		<Nuxt class="main-content" />
-		<Preloader v-if="showPreloader" />
+	<div class="layout_default__wrapper" >
+		<div class="container" v-if="loaded">
+			<TheMenu />
+			<Nuxt class="main-content" />
+		</div>
+		<Preloader v-if="showPreloader || !loaded" />
 	</div>
 </template>
 
@@ -19,6 +21,9 @@ export default {
 	computed: {
 		showPreloader() {
 			return this.$store.getters.getPreloader;
+		},
+		loaded() {
+			return this.$store.getters.getAuth.loaded;
 		}
 	},
 }
