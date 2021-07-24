@@ -25,8 +25,28 @@
 				<!-- auth-slot -->
 				<div class="no-auth menu-list" v-if="auth.isAuth">
 
-					<nuxt-link to="/" class="nuxt-link">
-						<div class="link-compose">Компоненты</div>
+					<nuxt-link to="/" class="nuxt-link menu-item">
+						<div class="link-compose">Таблица</div>
+					</nuxt-link>
+
+					<nuxt-link to="/makers" class="nuxt-link  menu-item">
+						<div class="link-compose">Производители</div>
+					</nuxt-link>
+
+					<nuxt-link to="/types" class="nuxt-link  menu-item">
+						<div class="link-compose">Типы</div>
+					</nuxt-link>
+
+					<nuxt-link to="/items" class="nuxt-link  menu-item">
+						<div class="link-compose">Элементы</div>
+					</nuxt-link>
+
+					<nuxt-link to="/modifications" class="nuxt-link  menu-item">
+						<div class="link-compose">Модификации</div>
+					</nuxt-link>
+
+					<nuxt-link to="/properties" class="nuxt-link  menu-item">
+						<div class="link-compose">Свойства</div>
 					</nuxt-link>
 
 				</div>

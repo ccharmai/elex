@@ -38,7 +38,6 @@ export const actions = {
 		// Если у нас есть токен, то сохраняем всю информацию о пользователе в state
 
 		let cookieToken = Cookie.get('token');
-		console.log(cookieToken)
 		if (cookieToken) {
 			// get info about token from server
 			axios.post(`${getters.api}/token.info/`, { token: cookieToken })

@@ -1,7 +1,8 @@
 <template>
 	<div class="page_main__wrapper">
 		<div class="wrapper">
-			<nuxt-link to="/UI">Библиотека компонентов</nuxt-link>
+			<!--<nuxt-link to="/UI">Библиотека компонентов</nuxt-link>-->
+			
 		</div>
 	</div>
 </template>
