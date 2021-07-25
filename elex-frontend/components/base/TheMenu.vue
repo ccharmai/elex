@@ -26,27 +26,27 @@
 				<div class="no-auth menu-list" v-if="auth.isAuth">
 
 					<nuxt-link to="/" class="nuxt-link menu-item">
-						<div class="link-compose">Таблица</div>
+						<div class="link-compose" :class="{ 'current': currentPath == '/' }">Таблица</div>
 					</nuxt-link>
 
 					<nuxt-link to="/makers" class="nuxt-link  menu-item">
-						<div class="link-compose">Производители</div>
+						<div class="link-compose" :class="{ 'current': currentPath == '/makers' }">Производители</div>
 					</nuxt-link>
 
 					<nuxt-link to="/types" class="nuxt-link  menu-item">
-						<div class="link-compose">Типы</div>
+						<div class="link-compose" :class="{ 'current': currentPath == '/types' }">Типы</div>
 					</nuxt-link>
 
 					<nuxt-link to="/items" class="nuxt-link  menu-item">
-						<div class="link-compose">Элементы</div>
+						<div class="link-compose" :class="{ 'current': currentPath == '/items' }">Элементы</div>
 					</nuxt-link>
 
 					<nuxt-link to="/modifications" class="nuxt-link  menu-item">
-						<div class="link-compose">Модификации</div>
+						<div class="link-compose" :class="{ 'current': currentPath == '/modifications' }">Модификации</div>
 					</nuxt-link>
 
 					<nuxt-link to="/properties" class="nuxt-link  menu-item">
-						<div class="link-compose">Свойства</div>
+						<div class="link-compose" :class="{ 'current': currentPath == '/properties' }">Свойства</div>
 					</nuxt-link>
 
 				</div>
@@ -70,23 +70,14 @@ export default {
 				action: 'nav',
 				url: '/',
 			}
-		],
-		authSlot: [
-			{
-				title: 'hello',
-				action: 'nav',
-				url: 'cabinet/'
-			},
-			{
-				title: 'Выход',
-				action: 'nav',
-				url: '/',
-			},
-		],
+		]
 	}},
 	computed: {
 		auth() {
 			return this.$store.getters.getAuth;
+		},
+		currentPath() {
+			return this.$route.path;
 		}
 	},
 }
@@ -126,6 +117,11 @@ export default {
 			}
 			.link-compose {
 				padding: 10px;
+				transition: .3s ease-in-out margin, background;
+				&.current {
+					margin-left: 10px;
+					color: #f1f1f1;
+				}
 			}
 		}
 	}

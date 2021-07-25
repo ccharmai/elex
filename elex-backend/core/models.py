@@ -52,6 +52,7 @@ class Item(models.Model):
 
 class Modification(models.Model):
 	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='items')
+	name = models.CharField(max_length=200)
 	is_visible = models.BooleanField(default=False)
 
 	def __str__(self):

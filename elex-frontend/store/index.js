@@ -42,7 +42,6 @@ export const actions = {
 			// get info about token from server
 			axios.post(`${getters.api}/token.info/`, { token: cookieToken })
 				.then(res => {
-					console.log(res.data)
 					if (res.data.status != 'ok') return ;
 					commit('setAuth', {
 						isAuth: true,
@@ -77,5 +76,8 @@ export const getters = {
 	},
 	getPreloader(state) {
 		return state.preloader;
+	},
+	getToken(state) {
+		return Cookie.get('token');
 	},
 }

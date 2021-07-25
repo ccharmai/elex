@@ -65,9 +65,7 @@ export default {
 		showModalWindow: false,
 	}},
 	methods: {
-		click() {
-			console.log('click');
-		},
+		click() {},
 		showToasts() {
 			if (this.currentToast == 'success') this.$toast.success("Success notify");
 			if (this.currentToast == 'info') this.$toast.info("Info notify");
