@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import TheMenu from '@/components/layout/TheMenu.vue';
 import PagePreloader from '@/components/layout/PagePreloader.vue';
 
@@ -26,10 +27,34 @@ export default {
   },
   created() {
     document.title = 'Elex';
-    // some actions ...
-    setTimeout(() => {
-      this.$store.dispatch('setPreloader', false);
-    }, 1000);
+    this.auth();
+  },
+  methods: {
+    auth() {
+      const startTime = performance.now();
+      const localToken = localStorage.getItem('token');
+      if (!localToken) {
+        this.endLoading(performance.now() - startTime);
+        return;
+      }
+      const loginUrl = `${this.$store.getters.api}/token.info/`;
+      axios.post(loginUrl, { token: localToken })
+        .then((res) => {
+          console.log(res.data);
+          this.endLoading(performance.now() - startTime);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    endLoading(time) {
+      if (time >= 1) this.$store.dispatch('setPreloader', false);
+      else {
+        setTimeout(() => {
+          this.$store.dispatch('setPreloader', false);
+        }, (1.5 - time) * 1000);
+      }
+    },
   },
 };
 </script>

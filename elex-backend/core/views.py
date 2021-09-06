@@ -55,11 +55,12 @@ def api_person_create(request):
 		password = req['password']
 	except:
 		return JsonResponse({ 'status': 'fail', 'reason': 'Name or password not passed', 'msg': 'Не передано значение имени или пароля' })
+	if req.__contains__('description'): description = req['description']
+	else: description = None
 	status = validate_new_user(name)
 	if not status: return JsonResponse({ 'status': 'fail', 'reason': 'Name taken', 'msg': 'Имя пользователя занято' })
-	Person(name=name, password=make_password(password)).save()
-	status, token, person = create_token(name, password)
-	return JsonResponse({ 'status': 'ok', 'name': person.name, 'isAdmin': person.is_admin, 'token': token })
+	Person(name=name, password=make_password(password), description=description).save()
+	return JsonResponse({ 'status': 'ok' })
 
 
 @csrf_exempt

@@ -1,6 +1,10 @@
 import { createStore } from 'vuex';
+import auth from './auth';
 
 export default createStore({
+  modules: {
+    auth,
+  },
   state: {
     showPagePreloader: true,
   },
@@ -16,6 +20,9 @@ export default createStore({
     },
   },
   getters: {
+    api() {
+      return 'http://127.0.0.1:8000/api';
+    },
     showPagePreloader(state) {
       return state.showPagePreloader;
     },

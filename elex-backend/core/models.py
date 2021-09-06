@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Person(models.Model):
+	is_active = models.BooleanField(default=False)
 	name = models.CharField(max_length=100)
 	password = models.CharField(max_length=250)
 	description = models.TextField(blank=True, null=True)
@@ -41,7 +42,7 @@ class Type(models.Model):
 
 
 class Item(models.Model):
-	maker =models.ForeignKey(Maker, on_delete=models.CASCADE, related_name='items')
+	maker = models.ForeignKey(Maker, on_delete=models.CASCADE, related_name='items')
 	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='items')
 	name = models.CharField(max_length=200)
 	is_visible = models.BooleanField(default=False)
