@@ -1,13 +1,28 @@
 <template>
   <div class="layouts_mini_menu__wrapper">
     <div class="el">Настройки акаунта</div>
-    <div class="el">Выйти из аккаунта</div>
+    <div class="el" @click="logout()">Выйти из аккаунта</div>
   </div>
 </template>
 
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+  methods: {
+    logout() {
+      const token = localStorage.getItem('token');
+      const deleteUrl = `${this.$store.getters.api}/token.delete/`;
+      axios.post(deleteUrl, { token })
+        .then((res) => {
+          if (res.data.status === 'ok') {
+            localStorage.removeItem('token');
+            this.$store.dispatch('setUser', null);
+            this.$router.push('/auth');
+          }
+        });
+    },
+  },
 };
 </script>
 

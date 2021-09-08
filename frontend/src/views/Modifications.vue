@@ -4,7 +4,9 @@
 
 <script>
 export default {
-
+  created() {
+    if (!this.$store.getters.getUser.auth) this.$router.push('/auth');
+  },
 };
 </script>
 

@@ -5,6 +5,7 @@ urlpatterns = [
 	# auth part
 	path('token.get/', views.api_token_get),
 	path('token.info/', views.api_token_info),
+	path('token.delete/', views.api_token_delete),
 
 	# person part
 	path('person.create/', views.api_person_create),

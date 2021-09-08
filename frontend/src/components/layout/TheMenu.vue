@@ -1,7 +1,7 @@
 <template>
   <div class="layout_the_menu__wrapper">
-    <div class="logo">Elex<span>.</span></div>
-    <div class="menu-items">
+    <div class="logo" @click="$router.push('/')">Elex<span>.</span></div>
+    <div class="menu-items" v-if="user.auth">
       <router-link to="/"
         class="menu-item"
         :class="{ 'current': pageName === 'Home' }"
@@ -27,16 +27,22 @@
         :class="{ 'current': pageName === 'Modifications' }"
       >Modifications</router-link>
     </div>
-    <div class="account">
+    <div class="menu-items" v-if="!user.auth">
+      <router-link to="/auth"
+        class="menu-item"
+        :class="{ 'current': pageName === 'Auth' }"
+      >Login</router-link>
+    </div>
+    <div class="account" v-show="user.auth">
       <div class="mini">
         <transition name="bounce">
           <MiniMenu v-show="showMiniMenu" />
         </transition>
       </div>
-      <div class="icon">S</div>
+      <div class="icon">{{ user.auth ? user.name[0].toUpperCase() : '' }}</div>
       <div class="text">
-        <div class="name">Sergey</div>
-        <div class="status">User</div>
+        <div class="name">{{ user.auth ? user.name : '' }}</div>
+        <div class="status">{{ user.auth ? user.admin ? 'Admin' : 'User' : 'Anonymous' }}</div>
       </div>
       <div class="nav" @click="showMiniMenu = !showMiniMenu">
         <img src="../../assets/img/nav.svg" alt="Nav buttons">
@@ -61,11 +67,16 @@ export default {
     pageName() {
       return this.$route.name;
     },
+    user() {
+      return this.$store.getters.getUser;
+    },
   },
   mounted() {
     // register click outside mini menu and current menu
+    const miniMenu = document.querySelector('.layout_the_menu__wrapper .mini');
+    const menu = document.querySelector('.layout_the_menu__wrapper .account');
     document.addEventListener('click', (e) => {
-      if (!this.$el.contains(e.target)) this.showMiniMenu = false;
+      if (!menu.contains(e.target) && !miniMenu.contains(e.target)) this.showMiniMenu = false;
     });
   },
 };
@@ -81,6 +92,7 @@ export default {
     display: flex;
     flex-direction: column;
     .logo {
+      cursor: pointer;
       padding: 30px;
       font-size: 2.5em;
       span {

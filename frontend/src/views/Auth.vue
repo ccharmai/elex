@@ -2,14 +2,12 @@
   <div class="page_auth__wrapper" :class="{ 'wait': loading }">
     <div class="container">
       <div class="logo"></div>
-      <div class="form">
+      <div class="form" @keyup.enter="loginHandler()">
         <Input v-model="login" placeholder="Логин" />
         <Input v-model="password" placeholder="Пароль" password />
       </div>
       <div class="btn__wrapper">
-        <div class="btn" @click="loginHandler()">
-          Войти
-        </div>
+        <div class="btn" @click="loginHandler()">Войти</div>
       </div>
       <div class="help" @click="showCreateModal = true">Заявка на создание аккаунта</div>
     </div>
@@ -21,7 +19,7 @@
           <Input v-model="newpassword" placeholder="Пароль" password />
           <div class="placeholder">Сопроводительное письмо</div>
           <textarea v-model="newdescription"></textarea>
-          <div class="btn">Отправить</div>
+          <div class="btn" @click="createHandler()">Отправить</div>
         </div>
       </div>
     </Modal>
@@ -30,6 +28,7 @@
 
 <script>
 import axios from 'axios';
+import { useToast } from 'vue-toastification';
 import Input from '@/components/shared/Input.vue';
 import Modal from '@/components/shared/Modal.vue';
 
@@ -38,12 +37,17 @@ export default {
     Input,
     Modal,
   },
+  setup() {
+    const toast = useToast();
+    return { toast };
+  },
   data() {
     return {
       login: '',
       password: '',
       loading: false,
       showCreateModal: false,
+      newLoading: false,
       newlogin: '',
       newpassword: '',
       newdescription: '',
@@ -56,7 +60,13 @@ export default {
       const loginUrl = `${this.$store.getters.api}/token.get/`;
       axios.post(loginUrl, { name: this.login, password: this.password })
         .then((res) => {
-          console.log(res.data);
+          if (res.data.status !== 'ok') {
+            this.toast.error(res.data.msg);
+          } else {
+            this.toast.success('Авторизация выполнена');
+            this.$store.dispatch('setUser', { ...res.data });
+            this.$router.push('/');
+          }
           this.loading = false;
         })
         .catch((err) => {
@@ -64,11 +74,39 @@ export default {
           this.loading = false;
         });
     },
+    createHandler() {
+      if (this.newLoading || this.newlogin.length === 0 || this.newpassword.length === 0) return;
+      const createUrl = `${this.$store.getters.api}/person.create/`;
+      this.newLoading = true;
+      axios.post(createUrl, { name: this.newlogin, password: this.newpassword })
+        .then((res) => {
+          if (res.data.status !== 'ok') {
+            this.toast.error(res.data.msg);
+          }
+          if (res.data.status === 'ok') {
+            this.toast.success('Заявка успешно создана');
+            this.showCreateModal = false;
+            this.newlogin = '';
+            this.newpassword = '';
+          }
+          this.newLoading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.newLoading = false;
+        });
+    },
   },
   computed: {
     canLogin() {
       return this.login.length > 0 && this.password.length > 0;
     },
+    user() {
+      return this.$store.getters.getUser;
+    },
+  },
+  created() {
+    if (this.user.auth) this.$router.replace('/');
   },
 };
 </script>

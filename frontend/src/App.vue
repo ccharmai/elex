@@ -31,28 +31,34 @@ export default {
   },
   methods: {
     auth() {
-      const startTime = performance.now();
+      const startTime = new Date();
       const localToken = localStorage.getItem('token');
       if (!localToken) {
-        this.endLoading(performance.now() - startTime);
+        this.endLoading(new Date() - startTime, '/auth');
         return;
       }
       const loginUrl = `${this.$store.getters.api}/token.info/`;
       axios.post(loginUrl, { token: localToken })
         .then((res) => {
-          console.log(res.data);
-          this.endLoading(performance.now() - startTime);
+          if (res.data.status === 'ok') {
+            this.$store.dispatch('setUser', { ...res.data });
+            this.endLoading(new Date() - startTime);
+          } else {
+            localStorage.removeItem('token');
+            this.endLoading(new Date() - startTime, '/auth');
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    endLoading(time) {
-      if (time >= 1) this.$store.dispatch('setPreloader', false);
+    endLoading(time, url = null) {
+      if (time / 1000 >= 1) this.$store.dispatch('setPreloader', false);
       else {
         setTimeout(() => {
           this.$store.dispatch('setPreloader', false);
-        }, (1.5 - time) * 1000);
+          if (url) this.$router.push(url);
+        }, (1.5 - time / 1000) * 1000);
       }
     },
   },

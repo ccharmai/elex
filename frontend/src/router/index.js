@@ -6,6 +6,7 @@ import Makers from '../views/Makers.vue';
 import Types from '../views/Types.vue';
 import Elements from '../views/Elements.vue';
 import Modifications from '../views/Modifications.vue';
+import PageNotFound from '../views/PageNotFound.vue';
 
 const routes = [
   {
@@ -42,6 +43,10 @@ const routes = [
     path: '/modifications',
     name: 'Modifications',
     component: Modifications,
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: PageNotFound,
   },
 ];
 

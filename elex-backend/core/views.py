@@ -30,6 +30,7 @@ def api_token_get(request):
 		return JsonResponse({ 'status': 'fail', 'reason': 'Name or password not passed', 'msg': 'Не переданы имя пользователя или пароль' })
 	status, token, person = create_token(name, password)
 	if not status: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid name or password', 'msg': 'Неверное имя пользователя или пароль' })
+	if not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Not active person', 'msg': 'Пользователь неактивен' })
 	return JsonResponse({ 'status': 'ok', 'name': person.name, 'isAdmin': person.is_admin, 'token': token })
 
 
@@ -37,13 +38,25 @@ def api_token_get(request):
 @require_POST
 def api_token_info(request):
 	req = post_json(request)
-	try:
-		token = req['token']
-	except:
-		return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
+	try: token = req['token']
+	except: return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
 	person = get_person_from_req(req)
 	if not person: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
-	return JsonResponse({ 'status': 'ok', 'name': person.name, 'isAdmin': person.is_admin })
+	if not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Not active person', 'msg': 'Пользователь неактивен' })
+	return JsonResponse({ 'status': 'ok', 'name': person.name, 'isAdmin': person.is_admin, 'token': token })
+
+
+@csrf_exempt
+@require_POST
+def api_token_delete(request):
+	req = post_json(request)
+	try: token = req['token']
+	except: return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
+	person = get_person_from_req(req)
+	if not person: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
+	token = Token.objects.get(token=token)
+	token.delete()
+	return JsonResponse({ 'status': 'ok' })
 
 
 @csrf_exempt
