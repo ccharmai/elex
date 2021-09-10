@@ -1,0 +1,16 @@
+{
+  "name": "elex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js",
+    "build-mac": "npx electron-builder --mac",
+    "build-win": "npx electron-builder --win"
+  },
+  "author": "ccharmai",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^14.0.0"
+  }
+}
