@@ -32,7 +32,7 @@ export default {
   methods: {
     auth() {
       const startTime = new Date();
-      const localToken = localStorage.getItem('token');
+      const localToken = window.localStorage.getItem('token');
       if (!localToken) {
         this.endLoading(new Date() - startTime, '/auth');
         return;
@@ -44,7 +44,7 @@ export default {
             this.$store.dispatch('setUser', { ...res.data });
             this.endLoading(new Date() - startTime);
           } else {
-            localStorage.removeItem('token');
+            window.localStorage.removeItem('token');
             this.endLoading(new Date() - startTime, '/auth');
           }
         })

@@ -36,7 +36,7 @@
     <div class="account" v-show="user.auth">
       <div class="mini">
         <transition name="bounce">
-          <MiniMenu v-show="showMiniMenu" />
+          <MiniMenu v-show="showMiniMenu" @close="showMiniMenu = false" />
         </transition>
       </div>
       <div class="icon">{{ user.auth ? user.name[0].toUpperCase() : '' }}</div>

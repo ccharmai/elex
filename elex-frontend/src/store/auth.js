@@ -26,7 +26,7 @@ export default {
   },
   actions: {
     setUser({ commit }, payload = null) {
-      if (payload) localStorage.setItem('token', payload.token);
+      if (payload) window.localStorage.setItem('token', payload.token);
       commit('setUser', payload);
       if (router.currentRoute.value.name === 'Auth') router.replace('/');
     },
