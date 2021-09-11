@@ -1,5 +1,5 @@
 <template>
-  <div class="pages_home__wrapper"></div>
+  <div class="pages_dashboard__wrapper"></div>
 </template>
 
 <script>
@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style lang="scss">
-  //.pages_home__wrapper {}
+  //.pages_dashboard__wrapper {}
 </style>

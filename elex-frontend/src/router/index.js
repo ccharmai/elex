@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import Dashboard from '../views/Dashboard.vue';
 import Auth from '../views/Auth.vue';
 import Library from '../views/Library.vue';
 import Makers from '../views/Makers.vue';
@@ -12,8 +12,8 @@ import PageNotFound from '../views/PageNotFound.vue';
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Dashboard',
+    component: Dashboard,
   },
   {
     path: '/auth',

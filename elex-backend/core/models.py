@@ -58,6 +58,7 @@ class Type(models.Model):
 
 
 class Item(models.Model):
+	# alias on elements
 	maker = models.ForeignKey(Maker, on_delete=models.CASCADE, related_name='items', verbose_name='Предмет')
 	type = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='items', verbose_name='Тип')
 	name = models.CharField(max_length=200, verbose_name='Название')

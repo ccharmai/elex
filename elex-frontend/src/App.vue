@@ -42,6 +42,7 @@ export default {
         .then((res) => {
           if (res.data.status === 'ok') {
             this.$store.dispatch('setUser', { ...res.data });
+            this.$store.dispatch('initData');
             this.endLoading(new Date() - startTime);
           } else {
             window.localStorage.removeItem('token');
@@ -73,8 +74,11 @@ export default {
     }
     .content {
       width: 100%;
+      height: 100%;
+      max-height: 100vh;
       min-height: 100%;
       padding: 20px;
+      overflow: scroll;
     }
   }
 </style>

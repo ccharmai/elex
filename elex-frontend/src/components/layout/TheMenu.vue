@@ -4,7 +4,7 @@
     <div class="menu-items" v-if="user.auth">
       <router-link to="/"
         class="menu-item"
-        :class="{ 'current': pageName === 'Home' }"
+        :class="{ 'current': pageName === 'Dashboard' }"
       >Dashboard</router-link>
       <router-link to="/library"
         class="menu-item"

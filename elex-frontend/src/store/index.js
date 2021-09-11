@@ -1,9 +1,11 @@
 import { createStore } from 'vuex';
 import auth from './auth';
+import table from './table';
 
 export default createStore({
   modules: {
     auth,
+    table,
   },
   state: {
     showPagePreloader: true,

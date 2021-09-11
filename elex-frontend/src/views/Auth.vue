@@ -65,6 +65,7 @@ export default {
           } else {
             this.toast.success('Авторизация выполнена');
             this.$store.dispatch('setUser', { ...res.data });
+            this.$store.dispatch('initData');
             this.$router.push('/');
           }
           this.loading = false;

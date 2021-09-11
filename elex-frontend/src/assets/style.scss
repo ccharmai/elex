@@ -19,8 +19,19 @@ html, body {
 	}
 }
 
+.page-head {
+	font-weight: 600;
+	font-size: 1.5em;
+}
+
 textarea {
 	font-family: 'Century Gothic';
+}
+
+input {
+	font-family: 'Century Gothic';
+	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
 }
 
 .bounce-enter-active {

@@ -2,6 +2,14 @@
   <div class="page_settings__wrapper">
     <div class="settings-list">
       <div class="items__wrapper" @click="currentPage = ''">
+        <template v-if="user.auth && user.admin">
+          <div class="item" v-for="i in adminSettings" :key="i.name"
+            @click.stop="currentPage = i.name"
+            :class="{ 'current': currentPage === i.name }"
+          >
+            <div class="text">{{ i.label }}</div>
+          </div>
+        </template>
         <div class="item" v-for="i in settings" :key="i.name"
           @click.stop="currentPage = i.name"
           :class="{ 'current': currentPage === i.name }"
@@ -26,6 +34,11 @@ export default {
   created() {
     if (!this.$store.getters.getUser.auth) this.$router.push('/auth');
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser;
+    },
+  },
   data() {
     return {
       currentPage: '',
@@ -33,6 +46,12 @@ export default {
         {
           name: 'password',
           label: 'Пароль',
+        },
+      ],
+      adminSettings: [
+        {
+          name: 'users',
+          label: 'Пользователи',
         },
       ],
     };
@@ -65,7 +84,7 @@ export default {
           cursor: pointer;
           display: flex;
           align-items: center;
-          transition: .3s ease-in-out background;
+          transition: .1s ease-in-out background;
           &:last-child {
             border-bottom: 1px solid #292929;
           }
