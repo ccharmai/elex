@@ -50,7 +50,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
         });
     },
     endLoading(time, url = null) {
@@ -74,7 +74,7 @@ export default {
     }
     .content {
       width: 100%;
-      height: 100%;
+      height: 100vh;
       max-height: 100vh;
       min-height: 100%;
       padding: 20px;

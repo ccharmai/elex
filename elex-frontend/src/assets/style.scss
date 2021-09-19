@@ -34,6 +34,63 @@ input {
   	-moz-osx-font-smoothing: grayscale;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.settings-title {
+	font-weight: 600;
+	font-size: 1.2em;
+}
+
+.table__wrapper {
+  margin-top: 40px;
+	table {
+		width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    td, th {
+      padding: 10px;
+      border-right: 2px solid #292929;
+      &:last-child { border-right: none; }
+      min-height: 20px;
+    }
+    tr {
+      border-bottom: 2px solid #292929;
+      &:last-child { border-bottom: none; }
+    }
+    .table-head {
+      position: sticky;
+      top: -20px;
+      background-color: #1f1f1f;
+      th { padding: 15px; }
+      th:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        bottom: 0;
+        background-color: #ff9633;
+        box-shadow: 0px 3px 13px #ff963334;
+      }
+    }
+    .status {
+      margin: 0 auto;
+      width:  10px;
+      height: 10px;
+      border-radius: 10px;
+      background-color: green;
+      box-shadow: 0 0 7px 0px #095609;
+      &.false {
+        background-color: red;
+        box-shadow: 0 0 7px 0px red;
+      }
+    }
+	}
+}
+
 .bounce-enter-active {
 	animation: bounce-in .3s;
 }

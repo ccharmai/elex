@@ -20,16 +20,19 @@
     </div>
     <div class="settings-content">
       <PasswordSettings v-show="currentPage === 'password'" />
+      <UsersSettings v-show="currentPage === 'users'" />
     </div>
   </div>
 </template>
 
 <script>
 import PasswordSettings from '@/components/settings/PasswordSettings.vue';
+import UsersSettings from '@/components/settings/UsersSettings.vue';
 
 export default {
   components: {
     PasswordSettings,
+    UsersSettings,
   },
   created() {
     if (!this.$store.getters.getUser.auth) this.$router.push('/auth');
@@ -92,6 +95,7 @@ export default {
             color: #717171;
           }
           &.current {
+            box-shadow: inset 0 0 7px #ff963214;
             background: #131313;
           }
         }

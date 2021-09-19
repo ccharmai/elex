@@ -1,5 +1,7 @@
 <template>
-  <div class="settings_password_settings__wrapper">Настройки пароля</div>
+  <div class="settings_password_settings__wrapper">
+    <div class="settings-title">Настройки пароля</div>
+  </div>
 </template>
 
 <script>

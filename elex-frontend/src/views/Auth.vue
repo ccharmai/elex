@@ -71,7 +71,7 @@ export default {
           this.loading = false;
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           this.loading = false;
         });
     },
@@ -93,7 +93,7 @@ export default {
           this.newLoading = false;
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           this.newLoading = false;
         });
     },

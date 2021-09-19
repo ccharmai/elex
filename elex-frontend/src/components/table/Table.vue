@@ -5,13 +5,6 @@
       <tr class="table_row" v-for="i in info" :key="i.id">
         <td v-for="k in header" :key="`${i.id}${k}`">{{ i[k] }}</td>
       </tr>
-      <template v-if="add">
-        <tr>
-          <td v-for="k in header" :key="`add${k}`">
-            <input type="text" class="table-input">
-          </td>
-        </tr>
-      </template>
     </table>
   </div>
 </template>

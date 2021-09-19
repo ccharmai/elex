@@ -15,8 +15,7 @@ def post_json(request):
 		json_str=((request.body).decode('utf-8'))
 		json_obj=json.loads(json_str)
 		return json_obj
-	except:
-		return None
+	except: return None
 
 
 @csrf_exempt
@@ -80,8 +79,6 @@ def api_person_create(request):
 @require_POST
 def api_get_makers(request):
 	req = post_json(request)
-	try: token = req['token']
-	except: return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_makers = []
@@ -99,8 +96,6 @@ def api_get_makers(request):
 @require_POST
 def api_get_types(request):
 	req = post_json(request)
-	try: token = req['token']
-	except: return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_types = []
@@ -118,8 +113,6 @@ def api_get_types(request):
 @require_POST
 def api_get_elements(request):
 	req = post_json(request)
-	try: token = req['token']
-	except: return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_elements = []
@@ -138,8 +131,6 @@ def api_get_elements(request):
 @require_POST
 def api_get_modifications(request):
 	req = post_json(request)
-	try: token = req['token']
-	except: return JsonResponse({ 'status': 'fail', 'reason': 'Token not passed', 'msg': 'Не передан токен'})
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_modifications = []
@@ -151,3 +142,51 @@ def api_get_modifications(request):
 			'name': i.name,
 		})
 	return JsonResponse({ 'status': 'ok', 'objects': all_modifications })
+
+
+# ============================= admin views ====================================
+
+
+def admin_check(req):
+	person = get_person_from_req(req)
+	if not person or not person.is_active or not person.is_admin: return False
+	return True
+
+
+@csrf_exempt
+@require_POST
+def api_admin_get_users(request):
+	req = post_json(request)
+	if not admin_check(req): return JsonResponse({ 'status': 'fail', 'reason': 'User is not admin', 'msg': 'Пользователь не является администрацией' })
+	users_serialized = [{
+		'id': i.id, 'is_active': i.is_active, 'name': i.name, 'description': i.description, 'is_admin': i.is_admin
+	} for i in Person.objects.all()]
+	return JsonResponse({ 'status': 'ok', 'users': users_serialized })
+
+
+@csrf_exempt
+@require_POST
+def api_admin_set_user(request):
+	req = post_json(request)
+	if not admin_check(req): return JsonResponse({ 'status': 'fail', 'reason': 'User is not admin', 'msg': 'Пользователь не является администрацией' })
+	admin = get_person_from_req(req)
+	if not req.__contains__('user'): return JsonResponse({ 'status': 'fail', 'reason': 'User not provided', 'msg': 'Не передан пользователь' })
+	try: user = Person.objects.get(id=req['user'])
+	except: return JsonResponse({ 'status': 'fail', 'reason': 'User not found', 'msg': 'Не найден пользователь с таким id' })
+
+	available_fields = [
+		{ 'name': 'is_admin',  'type': 'Boolean', 'can_change_self': False },
+		{ 'name': 'is_active', 'type': 'Boolean', 'can_change_self': False },
+	]
+
+	for field in available_fields:
+		if not req.__contains__(field['name']): continue
+		if admin.id == user.id and not field['can_change_self']: return JsonResponse({ 'status': 'fail', 'reason': 'Not permitted change self account', 'msg': 'Запрещено менять свои поля' })
+		setattr(user, field['name'], req[field['name']])
+
+	user.save()
+
+	return JsonResponse({ 'status': 'ok', 'user': { 'id': user.id, 'is_active': user.is_active, 'name': user.name, 'description': user.description, 'is_admin': user.is_admin } })
+
+
+# ==============================================================================

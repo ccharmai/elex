@@ -123,6 +123,8 @@ export default {
       justify-content: space-between;
       align-items: center;
       position: relative;
+      background-color: #212121;
+      box-shadow: inset 0 1px 7px #1a1a1a;
       .icon {
         width: 40px;
         height: 40px;

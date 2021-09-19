@@ -1,6 +1,8 @@
 <template>
   <div class="layouts_mini_menu__wrapper">
-    <div class="el" @click="$router.push('/settings'); $emit('close')">Настройки акаунта</div>
+    <div class="el"
+      @click="$router.push('/settings'); $emit('close')"
+    >{{ user.admin ? 'Управление' : 'Настройки' }}</div>
     <div class="el" @click="logout()">Выйти из аккаунта</div>
   </div>
 </template>
@@ -23,6 +25,11 @@ export default {
         });
     },
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser;
+    },
+  },
 };
 </script>
 
@@ -36,6 +43,7 @@ export default {
     align-items: center;
     justify-content: space-around;
     padding: 10px;
+    margin-bottom: 20px;
     .el {
       width: 100%;
       text-align: center;
