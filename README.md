@@ -20,5 +20,5 @@
 * Electron - MacOS и Windows приложение.
 
 ##### Галерея:
-![ELEX-screenshot](https://github.com/ccharmai/elex/blob/master/DEV/Screenshot-1.png.png)
-![ELEX-screenshot](https://github.com/ccharmai/elex/blob/master/DEV/Screenshot-2.png.png)
+![ELEX-screenshot](https://github.com/ccharmai/elex/blob/master/DEV/Screenshot-1.png)
+![ELEX-screenshot](https://github.com/ccharmai/elex/blob/master/DEV/Screenshot-2.png)
