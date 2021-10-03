@@ -18,6 +18,11 @@ def post_json(request):
 	except: return None
 
 
+def debug(line):
+	with open('./log', 'a') as f:
+		f.write(line)
+
+
 @csrf_exempt
 @require_POST
 def api_token_get(request):
@@ -72,6 +77,27 @@ def api_person_create(request):
 	status = validate_new_user(name)
 	if not status: return JsonResponse({ 'status': 'fail', 'reason': 'Name taken', 'msg': 'Имя пользователя занято' })
 	Person(name=name, password=make_password(password), description=description).save()
+	return JsonResponse({ 'status': 'ok' })
+
+
+@csrf_exempt
+@require_POST
+def api_person_change_password(request):
+	req = post_json(request)
+	try:
+		token = req['token']
+		password = req['password']
+	except:
+		return JsonResponse({ 'status': 'fail', 'reason': 'Token or password not passed', 'msg': 'Не передано значения токена или пароля' })
+	person = get_person_from_req(req)
+	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
+	if (len(password) == 0): return JsonResponse({ 'status': 'fail', 'reason': 'Empty password', 'msg': 'Передан пустой пароль' })
+	person.password = make_password(password)
+	person.save()
+	# now delete all token except current token
+	all_tokens = Token.objects.filter(person=person)
+	for tokenObj in all_tokens:
+		if tokenObj.token != token: token.delete()
 	return JsonResponse({ 'status': 'ok' })
 
 

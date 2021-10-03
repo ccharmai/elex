@@ -8,6 +8,7 @@ urlpatterns = [
 	path('token.delete/', views.api_token_delete),
 
 	path('person.create/', views.api_person_create),
+	path('person.change_password/', views.api_person_change_password),
 
 	path('get.makers/', views.api_get_makers),
 	path('get.types/', views.api_get_types),
