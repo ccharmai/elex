@@ -1,27 +1,34 @@
 <template>
   <div class="settings_users_settings__wrapper">
     <div class="settings-title">Настройки пользователей</div>
-    <div class="table__wrapper">
-      <table>
-        <tr class="table-head">
-          <th>ID</th>
-          <th>Active</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Admin</th>
-        </tr>
-        <tr v-for="user in users" :key="user.id">
-          <th>{{ user.id }}</th>
-          <th class="pointer" @click="changeField(user.id, 'is_active', !user.is_active)">
-            <div class="status" :class="{ 'false': !user.is_active }" />
-          </th>
-          <th>{{ user.name }}</th>
-          <th>{{ user.description }}</th>
-          <th class="pointer" @click="changeField(user.id, 'is_admin', !user.is_admin)">
-            <div class="status" :class="{ 'false': !user.is_admin }" />
-          </th>
-        </tr>
-      </table>
+    {{userName}}
+    <div class="users__wrapper">
+      <div class="row head">
+        <div>id</div>
+        <div>Active</div>
+        <div>Name</div>
+        <div>Description</div>
+        <div>Admin</div>
+        <div>Delete</div>
+      </div>
+      <div class="row" v-for="user in users" :key="user.id"
+        :class="{ 'current': user.name === userName }"
+      >
+        <div>{{ user.id }}</div>
+        <div>
+          <div class="indicator" :class="{ 'active': user.is_active }"
+            @click="changeField(user.id, 'is_active', !user.is_active)">
+          </div>
+        </div>
+        <div>{{ user.name }}</div>
+        <div>{{ user.description?.length > 0 ? user.description : '-' }}</div>
+        <div>
+          <div class="indicator" :class="{ 'active': user.is_admin }"
+            @click="changeField(user.id, 'is_admin', !user.is_admin)">
+          </div>
+        </div>
+        <div class="delete">{{ user.name === userName ? '' : '𐄂' }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -64,9 +71,55 @@ export default {
     if (!this.$store.getters.getUser.admin) this.$router.push('/');
     this.getUsers();
   },
+  computed: {
+    userName() {
+      return this.$store.getters.getUser.name;
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-  //.settings_users_settings__wrapper {}
+  .settings_users_settings__wrapper {
+    .users__wrapper {
+      overflow: scroll;
+      max-height: calc(100vh - 100px);
+      margin-top: 50px;
+      .row {
+        padding: 10px;
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr 1fr 2fr 3fr 1fr 1fr;
+        & > div {
+          text-align: center;
+        }
+        &.head {
+          position: sticky;
+          top: 0;
+          background: #1f1f1f;
+          border-bottom: 1px solid #ff9633;
+          margin-bottom: 10px;
+        }
+        &.current {
+          opacity: 0.5;
+        }
+      }
+      .indicator {
+        height: 10px;
+        width: 10px;
+        background: #580000;
+        margin: 0 auto;
+        border-radius: 9999px;
+        cursor: pointer;
+        &.active {
+          background: #005200;
+        }
+      }
+      .delete {
+        cursor: pointer;
+        color: #a50000;
+        font-weight: bold;
+      }
+    }
+  }
 </style>

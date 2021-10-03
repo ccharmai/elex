@@ -95,7 +95,6 @@ export default {
             color: #717171;
           }
           &.current {
-            box-shadow: inset 0 0 7px #ff963214;
             background: #131313;
           }
         }
