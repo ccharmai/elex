@@ -3,7 +3,7 @@
     <div class="page-head">Types</div>
     <div class="loader" v-if="info.loading"><Loader /></div>
     <div class="table-content" v-if="!info.loading">
-      <Table :info="info.types" :add="true" />
+      <Table :info="displayElements" :add="true" />
     </div>
   </div>
 </template>
@@ -23,6 +23,12 @@ export default {
   computed: {
     info() {
       return this.$store.getters.getInfo;
+    },
+    displayElements() {
+      return this.info.types.map((type) => ({
+        name: type.name,
+        description: type.description,
+      }));
     },
   },
 };

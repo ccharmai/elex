@@ -26,7 +26,6 @@ export default {
     },
     displayElements() {
       return this.info.elements.map((element) => ({
-        id: element.id,
         maker: this.info.makers.find((maker) => maker.id === element.maker).name,
         type: this.info.types.find((type) => type.id === element.type).name,
         name: element.name,

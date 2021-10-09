@@ -3,7 +3,7 @@
     <div class="page-head">Makers</div>
     <div class="loader" v-if="info.loading"><Loader /></div>
     <div class="table-content" v-if="!info.loading">
-      <Table :info="info.makers" :add="true" />
+      <Table :info="displayElements" :add="true" />
     </div>
   </div>
 </template>
@@ -23,6 +23,12 @@ export default {
   computed: {
     info() {
       return this.$store.getters.getInfo;
+    },
+    displayElements() {
+      return this.info.makers.map((maker) => ({
+        name: maker.name,
+        description: maker.description,
+      }));
     },
   },
 };

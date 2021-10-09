@@ -19,6 +19,16 @@ html, body {
 	}
 }
 
+.flex {
+	display: flex;
+	&.aic {
+		align-items: center;
+	}
+	&.jcc {
+		justify-content: center;
+	}
+}
+
 .page-head {
 	font-weight: 600;
 	font-size: 1.5em;

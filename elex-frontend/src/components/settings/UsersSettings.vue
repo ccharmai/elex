@@ -109,6 +109,9 @@ export default {
           background: #1f1f1f;
           border-bottom: 1px solid #ff9633;
           margin-bottom: 10px;
+          & > div {
+            padding-bottom: 20px;
+          }
         }
         &.current {
           opacity: 0.5;

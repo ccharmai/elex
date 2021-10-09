@@ -9,18 +9,27 @@
         <div>Свойство</div>
       </div>
       <div class="row" v-for="element in info.elements" :key="element.id">
-        <div>{{ element.name }}</div>
-        <div>{{ info.makers.find(m => m.id === element.maker).name }}</div>
+        <div class="flex aic jcc">
+          <div>{{ element.name }}</div>
+        </div>
+        <div class="flex aic jcc">
+          <div>{{ info.makers.find(m => m.id === element.maker).name }}</div>
+        </div>
         <div class="special-row"
           :style="`grid-templates-rows: repeat(${getItemModifications(element.id).length}, 1fr)`">
-          <div v-for="modification in getItemModifications(element.id)" :key="modification.id" >
-            {{ modification.name }}
+          <div
+            class="flex aic jcc"
+            v-for="modification in getItemModifications(element.id)"
+            :key="modification.id"
+          >
+            <div>{{ modification.name }}</div>
           </div>
         </div>
         <div class="special-row"
           :style="`grid-templates-rows: repeat(${getItemModifications(element.id).length}, 1fr)`">
           <div v-for="modification in getItemModifications(element.id)" :key="modification.id" >
-            <div v-for="prop in getModificationsProperties(modification.id)" :key="prop.id">
+            <div v-for="prop in getModificationsProperties(modification.id)" :key="prop.id"
+              class="prop">
               {{ prop.name }} {{ prop.value }} {{ prop.dimension }}
             </div>
           </div>
@@ -59,7 +68,7 @@ export default {
     .table {
       .row {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 2fr;
+        grid-template-columns: 1fr 2fr 2fr 3fr;
         border-bottom: 1px solid #2c2c2c;
         &:last-child {
           border-bottom: none;
@@ -77,12 +86,18 @@ export default {
           top: 0;
           background: #1f1f1f;
           border-bottom: 1px solid #ff9633;
+          & > div {
+            padding-bottom: 20px;
+          }
         }
         .special-row {
           display: grid;
           row-gap: 20px;
           & > div {
             overflow: scroll;
+          }
+          .prop {
+            font-size: 0.8em;
           }
         }
       }

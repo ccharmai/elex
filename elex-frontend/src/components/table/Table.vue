@@ -38,6 +38,10 @@ export default {
       display: grid;
       display: grid;
       align-items: center;
+      border-bottom: 1px solid #2c2c2c;
+      &:last-child {
+        border-bottom: none;
+      }
       & > div {
         padding: 10px;
         text-align: center;
@@ -51,6 +55,9 @@ export default {
         top: 0;
         background: #1f1f1f;
         border-bottom: 1px solid #ff9633;
+        & > div {
+          padding-bottom: 20px;
+        }
       }
     }
   }
