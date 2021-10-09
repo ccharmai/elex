@@ -8,7 +8,7 @@
         :style="{ 'grid-template-columns': cssGridColumns }"
       >
         <div v-for="(value, key) of item" :key="item.id + key">
-          {{ value }}
+          {{ value ? value : '-' }}
         </div>
       </div>
     </div>
@@ -36,6 +36,19 @@ export default {
   .table_table__wrapper {
     .row {
       display: grid;
+      padding: 10px;
+      display: grid;
+      align-items: center;
+      & > div {
+        text-align: center;
+      }
+      &.head {
+        position: sticky;
+        top: 0;
+        background: #1f1f1f;
+        border-bottom: 1px solid #ff9633;
+        margin-bottom: 10px;
+      }
     }
   }
 </style>
