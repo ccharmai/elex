@@ -14,6 +14,7 @@ urlpatterns = [
 	path('get.types/', views.api_get_types),
 	path('get.elements/', views.api_get_elements),
 	path('get.modifications/', views.api_get_modifications),
+	path('get.properties/', views.api_get_properties),
 
 	path('adm/get.users/', views.api_admin_get_users),
 	path('adm/set.user/', views.api_admin_set_user),

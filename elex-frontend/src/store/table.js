@@ -5,11 +5,11 @@ export default {
   state: {
     info: {
       loading: true,
-      // library: [],
       makers: [],
       types: [],
       elements: [],
       modifications: [],
+      properties: [],
     },
   },
   mutations: {
@@ -27,7 +27,7 @@ export default {
     },
     getAllData({ commit, getters }) {
       let countLoadingFields = 0; // expected 4 (fields.length)
-      const fields = ['makers', 'types', 'elements', 'modifications'];
+      const fields = ['makers', 'types', 'elements', 'modifications', 'properties'];
       const { token } = getters.getUser;
       const url = `${getters.api}/get.`;
       for (const field of fields) {

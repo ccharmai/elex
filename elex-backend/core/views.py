@@ -188,6 +188,24 @@ def api_get_modifications(request):
 	return JsonResponse({ 'status': 'ok', 'objects': all_modifications })
 
 
+@csrf_exempt
+@require_POST
+def api_get_properties(request):
+	req = post_json(request)
+	person = get_person_from_req(req)
+	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
+	all_properties = []
+	all_db_properties = Property.objects.filter(is_visible=True)
+	for i in all_db_properties:
+		all_properties.append({
+			'id': i.id,
+			'modification': i.modification.id,
+			'name': i.name,
+			'value': i.value,
+			'dimension': i.dimension,
+		})
+	return JsonResponse({ 'status': 'ok', 'objects': all_properties })
+
 # ============================= admin views ====================================
 
 

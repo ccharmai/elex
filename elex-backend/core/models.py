@@ -78,7 +78,7 @@ class Modification(models.Model):
 	is_visible = models.BooleanField(default=False, verbose_name='Проверен')
 
 	def __str__(self):
-		return self.item.name
+		return f'{self.item.name} {self.name}'
 
 	class Meta:
 		verbose_name = 'Модификация'

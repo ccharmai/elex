@@ -1,10 +1,10 @@
 <template>
   <div class="pages_dashboard__wrapper">
-    <div class="head">Статистика</div>
+    <div class="head">Statistics</div>
     <div class="box__wrapper">
 
       <div class="box">
-        <div class="box-head">Пользователей</div>
+        <div class="box-head">Users</div>
         <div class="box-content">{{ users.length }}</div>
       </div>
 

@@ -36,5 +36,9 @@ export default {
 </script>
 
 <style lang="scss">
-  //.page_modifications__wrapper {}
+  .page_modifications__wrapper {
+    .page-head {
+      margin-bottom: 50px;
+    }
+  }
 </style>
