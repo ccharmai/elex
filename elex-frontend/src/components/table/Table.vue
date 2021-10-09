@@ -36,18 +36,21 @@ export default {
   .table_table__wrapper {
     .row {
       display: grid;
-      padding: 10px;
       display: grid;
       align-items: center;
       & > div {
+        padding: 10px;
         text-align: center;
+        border-right: 1px solid #2c2c2c;
+        &:last-child {
+          border-right: none;
+        }
       }
       &.head {
         position: sticky;
         top: 0;
         background: #1f1f1f;
         border-bottom: 1px solid #ff9633;
-        margin-bottom: 10px;
       }
     }
   }
