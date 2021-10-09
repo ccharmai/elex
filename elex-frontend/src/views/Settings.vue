@@ -19,8 +19,8 @@
       </div>
     </div>
     <div class="settings-content">
-      <PasswordSettings v-show="currentPage === 'password'" />
-      <UsersSettings v-show="currentPage === 'users'" />
+      <PasswordSettings v-if="currentPage === 'password'" />
+      <UsersSettings v-if="currentPage === 'users'" />
     </div>
   </div>
 </template>

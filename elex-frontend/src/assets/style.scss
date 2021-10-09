@@ -29,6 +29,45 @@ html, body {
 	}
 }
 
+.add {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 50px;
+	.h {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	.btn {
+		margin-top: 30px;
+		background: #ff9633;
+		text-align: center;
+		padding: 10px;
+		font-weight: bold;
+		border-radius: 10px;
+		cursor: pointer;
+		transition: .3s ease-in-out opacity;
+		&.disabled {
+			cursor: not-allowed;
+			opacity: .4;
+		}
+	}
+	.form {
+		.row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+}
+
+select, input {
+	outline: none;
+	border: none;
+	margin: 10px;
+	padding: 10px;
+	color: white;
+	background: #242424;
+}
+
 .page-head {
 	font-weight: 600;
 	font-size: 1.5em;

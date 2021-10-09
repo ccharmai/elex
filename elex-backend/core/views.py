@@ -190,6 +190,23 @@ def api_get_modifications(request):
 
 @csrf_exempt
 @require_POST
+def api_add_modification(request):
+	req = post_json(request)
+	person = get_person_from_req(req)
+	if not person or not person.is_active: return JsonResponse({ 'status': 'fail' })
+	try:
+		name = req['name']
+		item = Item.objects.get(id=req['item'])
+	except: return JsonResponse({ 'status': 'fail' })
+	# validors
+	if len(name) == 0: return JsonResponse({ 'status': 'fail' })
+	obj = Modification(item=item, name=name, is_visible = True if person.is_admin else False)
+	obj.save()
+	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'item': obj.item.id, 'name': obj.name } if obj.is_visible else None })
+
+
+@csrf_exempt
+@require_POST
 def api_get_properties(request):
 	req = post_json(request)
 	person = get_person_from_req(req)

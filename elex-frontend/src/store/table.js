@@ -19,6 +19,9 @@ export default {
     setField(state, data) {
       state.info[data.field] = data.value;
     },
+    addItem(state, data) {
+      state.info[data.field].push(data.obj);
+    },
   },
   actions: {
     initData({ commit, dispatch }) {
@@ -42,6 +45,11 @@ export default {
             if (countLoadingFields === fields.length) commit('setLoading', false);
           });
       }
+    },
+    addItem({ commit }, payload) {
+      const fields = ['makers', 'types', 'elements', 'modifications', 'properties'];
+      if (!fields.includes(payload.field)) return;
+      commit('addItem', payload);
     },
   },
   getters: {

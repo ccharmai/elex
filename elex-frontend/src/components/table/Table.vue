@@ -11,6 +11,7 @@
           {{ value ? value : '-' }}
         </div>
       </div>
+      <slot />
     </div>
   </div>
 </template>
