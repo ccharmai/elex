@@ -1,7 +1,6 @@
 <template>
   <div class="settings_users_settings__wrapper">
     <div class="settings-title">Настройки пользователей</div>
-    {{userName}}
     <div class="users__wrapper">
       <div class="row head">
         <div>id</div>
@@ -27,7 +26,9 @@
             @click="changeField(user.id, 'is_admin', !user.is_admin)">
           </div>
         </div>
-        <div class="delete">{{ user.name === userName ? '' : '𐄂' }}</div>
+        <div class="delete"
+          @click="deleteUser(user.id, user.name)">
+          {{ user.name === userName ? '' : '𐄂' }}</div>
       </div>
     </div>
   </div>
@@ -64,6 +65,15 @@ export default {
             const userIndex = this.users.map((u) => u.id).indexOf(res.data.user.id);
             this.users.splice(userIndex, 1, res.data.user);
           }
+        });
+    },
+    deleteUser(userId, name) {
+      if (name === this.userName) return;
+      const url = `${this.$store.getters.api}/adm/del.user/`;
+      const { token } = this.$store.getters.getUser;
+      axios.post(url, { token, user: userId })
+        .then((res) => {
+          if (res.data.status === 'ok') this.users = this.users.filter((u) => u.id !== userId);
         });
     },
   },

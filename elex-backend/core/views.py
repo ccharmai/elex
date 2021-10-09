@@ -103,6 +103,24 @@ def api_person_change_password(request):
 
 @csrf_exempt
 @require_POST
+def api_person_delete(request):
+	req = post_json(request)
+	try:
+		token = req['token']
+		user_id = req['user']
+	except: JsonResponse({ 'status': 'fail', 'reason': 'Token or user not passed', 'msg': 'Не передано значение токена или пользователя' })
+	person = get_person_from_req(req)
+	if not person or not person.is_admin or person.id == user_id:
+		return JsonResponse({ 'status': 'fail', 'reason': 'Not found admin or admin not admin or admin is user', 'msg': 'Выбрана некорректная пара пользователей' })
+	try:
+		user = Person.objects.get(id=user_id)
+	except: JsonResponse({ 'status': 'fail', 'reason': 'User not found', 'msg': 'Нет пользователя, который соответствует указанному id' })
+	user.delete()
+	return JsonResponse({ 'status': 'ok' })
+
+
+@csrf_exempt
+@require_POST
 def api_get_makers(request):
 	req = post_json(request)
 	person = get_person_from_req(req)
