@@ -13,6 +13,7 @@ urlpatterns = [
 	path('get.makers/', views.api_get_makers),
 
 	path('get.types/', views.api_get_types),
+	path('add.type/', views.api_add_type),
 
 	path('get.elements/', views.api_get_elements),
 	path('add.element/', views.api_add_element),
