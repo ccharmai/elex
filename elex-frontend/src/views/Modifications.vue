@@ -5,7 +5,7 @@
     <div class="table-content" v-if="!info.loading">
       <Table :info="displayElements" :add="true">
         <div class="add">
-          <div class="h">Добавить элемент</div>
+          <div class="h">Добавить модификацию</div>
           <div class="form">
             <div class="row">
               <div class="label">Предмет</div>

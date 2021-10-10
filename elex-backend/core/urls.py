@@ -15,6 +15,7 @@ urlpatterns = [
 	path('get.types/', views.api_get_types),
 
 	path('get.elements/', views.api_get_elements),
+	path('add.element/', views.api_add_element),
 
 	path('get.modifications/', views.api_get_modifications),
 	path('add.modification/', views.api_add_modification),

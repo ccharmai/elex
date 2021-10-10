@@ -173,6 +173,24 @@ def api_get_elements(request):
 
 @csrf_exempt
 @require_POST
+def api_add_element(request):
+	req = post_json(request)
+	person = get_person_from_req(req)
+	if not person or not person.is_active: return JsonResponse({ 'status': 'fail' })
+	try:
+		name = req['name']
+		_type = Type.objects.get(id=req['type'])
+		maker = Maker.objects.get(id=req['maker'])
+	except: return JsonResponse({ 'status': 'fail' })
+	# validors
+	if len(name) == 0: return JsonResponse({ 'status': 'fail' })
+	obj = Item(maker=maker, type=_type, name=name, is_visible = True if person.is_admin else False)
+	obj.save()
+	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'maker': obj.maker.id, 'type': obj.type.id, 'name': obj.name } if obj.is_visible else None })
+
+
+@csrf_exempt
+@require_POST
 def api_get_modifications(request):
 	req = post_json(request)
 	person = get_person_from_req(req)
