@@ -21,6 +21,7 @@
     <div class="settings-content">
       <PasswordSettings v-if="currentPage === 'password'" />
       <UsersSettings v-if="currentPage === 'users'" />
+      <ModerationSettings v-if="currentPage === 'moderation'" />
     </div>
   </div>
 </template>
@@ -28,11 +29,13 @@
 <script>
 import PasswordSettings from '@/components/settings/PasswordSettings.vue';
 import UsersSettings from '@/components/settings/UsersSettings.vue';
+import ModerationSettings from '@/components/settings/ModerationSettings.vue';
 
 export default {
   components: {
     PasswordSettings,
     UsersSettings,
+    ModerationSettings,
   },
   created() {
     if (!this.$store.getters.getUser.auth) this.$router.push('/auth');
@@ -55,6 +58,10 @@ export default {
         {
           name: 'users',
           label: 'Пользователи',
+        },
+        {
+          name: 'moderation',
+          label: 'Модерация',
         },
       ],
     };
