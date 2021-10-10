@@ -102,7 +102,6 @@ export default {
       })
         .then((res) => {
           if (res.data.status === 'ok') {
-            console.log(res.data);
             if (res.data.obj) this.$store.dispatch('addItem', { field: 'elements', obj: res.data.obj });
             else this.toast('На модерации');
             this.addName = '';

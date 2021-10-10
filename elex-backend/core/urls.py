@@ -23,6 +23,7 @@ urlpatterns = [
 	path('add.modification/', views.api_add_modification),
 
 	path('get.properties/', views.api_get_properties),
+	path('add.property/', views.api_add_property),
 
 	path('adm/get.users/', views.api_admin_get_users),
 	path('adm/set.user/', views.api_admin_set_user),

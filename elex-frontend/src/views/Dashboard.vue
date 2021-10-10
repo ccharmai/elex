@@ -78,9 +78,9 @@ export default {
       .box {
         margin: 10px;
         padding: 20px;
-        background: #1a1a1a;
+        background: #1e1e1e;
         border-radius: 10px;
-        box-shadow: 0px 0px 8px #ffffff08;
+        box-shadow: inset 0px 0px 8px #0606062d;
         .box-head {
           text-align: center;
           font-weight: 600;

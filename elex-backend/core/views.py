@@ -275,6 +275,25 @@ def api_get_properties(request):
 		})
 	return JsonResponse({ 'status': 'ok', 'objects': all_properties })
 
+
+@csrf_exempt
+@require_POST
+def api_add_property(request):
+	req = post_json(request)
+	person = get_person_from_req(req)
+	if not person or not person.is_active: return JsonResponse({ 'status': 'fail' })
+	try:
+		modification = Modification.objects.get(id=req['modification'])
+		name = req['name']
+		value = req['value']
+		dimension = req['dimension']
+	except: return JsonResponse({ 'status': 'fail' })
+	# validors
+	if len(name) == 0 or len(value) == 0 or len(dimension) == 0: return JsonResponse({ 'status': 'fail' })
+	obj = Property(modification=modification, name=name, value=value, dimension=dimension, is_visible = True if person.is_admin else False)
+	obj.save()
+	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'modification': obj.modification.id, 'name': obj.name, 'value': obj.value, 'dimension': obj.dimension } if obj.is_visible else None })
+
 # ============================= admin views ====================================
 
 
