@@ -138,6 +138,23 @@ def api_get_makers(request):
 
 @csrf_exempt
 @require_POST
+def api_add_maker(request):
+	req = post_json(request)
+	person = get_person_from_req(req)
+	if not person or not person.is_active: return JsonResponse({ 'status': 'fail' })
+	try:
+		name = req['name']
+		description = req['description']
+	except: return JsonResponse({ 'status': 'fail' })
+	# validors
+	if len(name) == 0 or len(description) == 0: return JsonResponse({ 'status': 'fail' })
+	obj = Maker(name=name, description=description, is_visible = True if person.is_admin else False)
+	obj.save()
+	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'name': obj.name, 'description': obj.description } if obj.is_visible else None })
+
+
+@csrf_exempt
+@require_POST
 def api_get_types(request):
 	req = post_json(request)
 	person = get_person_from_req(req)

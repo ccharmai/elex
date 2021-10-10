@@ -11,6 +11,7 @@ urlpatterns = [
 	path('person.change_password/', views.api_person_change_password),
 
 	path('get.makers/', views.api_get_makers),
+	path('add.maker/', views.api_add_maker),
 
 	path('get.types/', views.api_get_types),
 	path('add.type/', views.api_add_type),

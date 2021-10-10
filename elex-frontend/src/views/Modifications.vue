@@ -15,7 +15,7 @@
                   v-for="el in info.elements"
                   :key="el.id"
                   :value="el.id"
-                >{{ el.name }}</option>
+                >{{ info.types.find(t => t.id === el.type).name }} {{ el.name }}</option>
               </select>
             </div>
             <div class="row">
