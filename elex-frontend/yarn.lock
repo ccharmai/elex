@@ -8735,6 +8735,11 @@ vue-ui-preloader@^1.2.1:
   resolved "https://registry.yarnpkg.com/vue-ui-preloader/-/vue-ui-preloader-1.2.1.tgz#3d32ba1c6b1d6c7a37e0a9bd684e8c011829bbd5"
   integrity sha512-zxERqfGU/KW4LvIhPkwVZhRwioGXXOF5e+YXSZq27vpSrc8+w9bbWJercbIIIUXTl7Z5sUbINlm9X5iN0pESxw==
 
+vue3-slide-up-down@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/vue3-slide-up-down/-/vue3-slide-up-down-1.2.3.tgz#ff0fc66fc6b9408c7754ee9216f28fa9ed75fa28"
+  integrity sha512-IVpxOzaYV9zevmp7JcqgUv+5+8u8+9bOtsZdX59sYSSubhsPrHVVvyGPK9GG5ZUeowj+CJ5dl68o6fvNkf55Cg==
+
 vue@^3.0.0:
   version "3.2.19"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.19.tgz#da2c80a6a0271c7097fee9e31692adfd9d569c8f"

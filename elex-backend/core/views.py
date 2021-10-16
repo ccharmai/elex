@@ -126,10 +126,12 @@ def api_get_makers(request):
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_makers = []
-	all_db_makers = Maker.objects.filter(is_visible=True)
+	if req.__contains__('invisible') and req['invisible'] and person.is_admin: all_db_makers = Maker.objects.all()
+	else: all_db_makers = Maker.objects.filter(is_visible=True)
 	for i in all_db_makers:
 		all_makers.append({
 			'id': i.id,
+			'is_visible': i.is_visible,
 			'name': i.name,
 			'description': i.description,
 		})
@@ -160,10 +162,12 @@ def api_get_types(request):
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_types = []
-	all_db_types = Type.objects.filter(is_visible=True)
+	if req.__contains__('invisible') and req['invisible'] and person.is_admin: all_db_types = Type.objects.all()
+	else: all_db_types = Type.objects.filter(is_visible=True)
 	for i in all_db_types:
 		all_types.append({
 			'id': i.id,
+			'is_visible': i.is_visible,
 			'name': i.name,
 			'description': i.description,
 		})
@@ -194,10 +198,12 @@ def api_get_elements(request):
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_elements = []
-	all_db_elements = Item.objects.filter(is_visible=True)
+	if req.__contains__('invisible') and req['invisible'] and person.is_admin: all_db_elements = Item.objects.all()
+	else: all_db_elements = Item.objects.filter(is_visible=True)
 	for i in all_db_elements:
 		all_elements.append({
 			'id': i.id,
+			'is_visible': i.is_visible,
 			'maker': i.maker.id,
 			'type': i.type.id,
 			'name': i.name,
@@ -230,10 +236,12 @@ def api_get_modifications(request):
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_modifications = []
-	all_db_modifications = Modification.objects.filter(is_visible=True)
+	if req.__contains__('invisible') and req['invisible'] and person.is_admin: all_db_modifications = Modification.objects.all()
+	else: all_db_modifications = Modification.objects.filter(is_visible=True)
 	for i in all_db_modifications:
 		all_modifications.append({
 			'id': i.id,
+			'is_visible': i.is_visible,
 			'item': i.item.id,
 			'name': i.name,
 		})
@@ -264,10 +272,12 @@ def api_get_properties(request):
 	person = get_person_from_req(req)
 	if not person or not person.is_active: return JsonResponse({ 'status': 'fail', 'reason': 'Invalid token', 'msg': 'Неверный токен' })
 	all_properties = []
-	all_db_properties = Property.objects.filter(is_visible=True)
+	if req.__contains__('invisible') and req['invisible'] and person.is_admin: all_db_properties = Property.objects.all()
+	else: all_db_properties = Property.objects.filter(is_visible=True)
 	for i in all_db_properties:
 		all_properties.append({
 			'id': i.id,
+			'is_visible': i.is_visible,
 			'modification': i.modification.id,
 			'name': i.name,
 			'value': i.value,
@@ -301,6 +311,41 @@ def admin_check(req):
 	person = get_person_from_req(req)
 	if not person or not person.is_active or not person.is_admin: return False
 	return True
+
+
+@csrf_exempt
+@require_POST
+def api_admin_set(request):
+	req = post_json(request)
+	if not admin_check(req): return JsonResponse({ 'status': 'fail', 'reason': 'User is not admin', 'msg': 'Пользователь не является администрацией' })
+	try:
+		field = req['field']
+		action = req['action']
+		_id = req['id']
+	except: return JsonResponse({ 'status': 'fail', 'reason': 'Field or action not provided', 'msg': 'Не передано значение поля или действия' })
+	# validate values
+	if field not in ['Makers', 'Types', 'Elements', 'Modifications', 'Properties'] \
+	or action not in ['approve', 'discard']:
+		return JsonResponse({ 'status': 'fail', 'reason': 'Validations was filed', 'msg': 'Не пройдена валидация на сервере' })
+
+	try:
+		if (field == 'Makers'): obj = Maker.objects.get(id=_id)
+		elif (field == 'Types'): obj = Type.objects.get(id=_id)
+		elif (field == 'Elements'): obj = Item.objects.get(id=_id)
+		elif (field == 'Modifications'): obj = Modification.objects.get(id=_id)
+		elif (field == 'Properties'): obj = Property.objects.get(id=_id)
+		else: raise Exception('No models..')
+	except:
+		return JsonResponse({ 'status': 'fail', 'reason': 'Id was not found', 'msg': 'Запись с таким id не найдена' })
+
+	if action == 'approve':
+		obj.is_visible = True
+		obj.save()
+	elif action == 'discard':
+		obj.delete()
+
+
+	return JsonResponse({ 'status': 'ok' })
 
 
 @csrf_exempt
