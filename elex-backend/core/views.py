@@ -18,9 +18,9 @@ def post_json(request):
 	except: return None
 
 
-def debug(line):
-	with open('./log', 'a') as f:
-		f.write(line)
+def log(model, author, comment):
+	obj = Log(model=model, author=author, comment=comment)
+	obj.save()
 
 
 @csrf_exempt
@@ -98,6 +98,7 @@ def api_person_change_password(request):
 	all_tokens = Token.objects.filter(person=person)
 	for tokenObj in all_tokens:
 		if tokenObj.token != token: token.delete()
+	log('Person', person, 'Смена пароля')
 	return JsonResponse({ 'status': 'ok' })
 
 
@@ -116,6 +117,7 @@ def api_person_delete(request):
 		user = Person.objects.get(id=user_id)
 	except: JsonResponse({ 'status': 'fail', 'reason': 'User not found', 'msg': 'Нет пользователя, который соответствует указанному id' })
 	user.delete()
+	log('Person', person, 'Удален пользователь')
 	return JsonResponse({ 'status': 'ok' })
 
 
@@ -152,6 +154,7 @@ def api_add_maker(request):
 	if len(name) == 0 or len(description) == 0: return JsonResponse({ 'status': 'fail' })
 	obj = Maker(name=name, description=description, is_visible = True if person.is_admin else False)
 	obj.save()
+	log('Maker', person, 'Добавлена запись')
 	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'name': obj.name, 'description': obj.description } if obj.is_visible else None })
 
 
@@ -188,6 +191,7 @@ def api_add_type(request):
 	if len(name) == 0 or len(description) == 0: return JsonResponse({ 'status': 'fail' })
 	obj = Type(name=name, description=description, is_visible = True if person.is_admin else False)
 	obj.save()
+	log('Type', person, 'Добавлена запись')
 	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'name': obj.name, 'description': obj.description } if obj.is_visible else None })
 
 
@@ -226,6 +230,7 @@ def api_add_element(request):
 	if len(name) == 0: return JsonResponse({ 'status': 'fail' })
 	obj = Item(maker=maker, type=_type, name=name, is_visible = True if person.is_admin else False)
 	obj.save()
+	log('Element', person, 'Добавлена запись')
 	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'maker': obj.maker.id, 'type': obj.type.id, 'name': obj.name } if obj.is_visible else None })
 
 
@@ -262,6 +267,7 @@ def api_add_modification(request):
 	if len(name) == 0: return JsonResponse({ 'status': 'fail' })
 	obj = Modification(item=item, name=name, is_visible = True if person.is_admin else False)
 	obj.save()
+	log('Modification', person, 'Добавлена запись')
 	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'item': obj.item.id, 'name': obj.name } if obj.is_visible else None })
 
 
@@ -302,6 +308,7 @@ def api_add_property(request):
 	if len(name) == 0 or len(value) == 0 or len(dimension) == 0: return JsonResponse({ 'status': 'fail' })
 	obj = Property(modification=modification, name=name, value=value, dimension=dimension, is_visible = True if person.is_admin else False)
 	obj.save()
+	log('Property', person, 'Добавлена запись')
 	return JsonResponse({ 'status': 'ok', 'obj': { 'id': obj.id, 'modification': obj.modification.id, 'name': obj.name, 'value': obj.value, 'dimension': obj.dimension } if obj.is_visible else None })
 
 # ============================= admin views ====================================
@@ -344,7 +351,7 @@ def api_admin_set(request):
 	elif action == 'discard':
 		obj.delete()
 
-
+	log(field, get_person_from_req(req), f'Модерация записи. Установлен статус {action}')
 	return JsonResponse({ 'status': 'ok' })
 
 
@@ -357,6 +364,21 @@ def api_admin_get_users(request):
 		'id': i.id, 'is_active': i.is_active, 'name': i.name, 'description': i.description, 'is_admin': i.is_admin
 	} for i in Person.objects.all()]
 	return JsonResponse({ 'status': 'ok', 'users': users_serialized })
+
+
+@csrf_exempt
+@require_POST
+def api_admin_get_logs(request):
+	req = post_json(request)
+	if not admin_check(req): return JsonResponse({ 'status': 'fail' })
+	log_serialized = [{
+		'id': i.id,
+		'author': i.author.name,
+		'model': i.model,
+		'comment': i.comment,
+		'time': i.time.strftime('%d.%m.%Y %H:%M'),
+	} for i in Log.objects.all()]
+	return JsonResponse({ 'status': 'ok', 'logs': log_serialized })
 
 
 @csrf_exempt
@@ -380,7 +402,7 @@ def api_admin_set_user(request):
 		setattr(user, field['name'], req[field['name']])
 
 	user.save()
-
+	log('Person', admin, f'Настройка пользователя. {req["name"]}')
 	return JsonResponse({ 'status': 'ok', 'user': { 'id': user.id, 'is_active': user.is_active, 'name': user.name, 'description': user.description, 'is_admin': user.is_admin } })
 
 

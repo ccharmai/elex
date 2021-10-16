@@ -26,6 +26,7 @@ urlpatterns = [
 	path('add.property/', views.api_add_property),
 
 	path('adm/get.users/', views.api_admin_get_users),
+	path('adm/get.logs/', views.api_admin_get_logs),
 	path('adm/set.user/', views.api_admin_set_user),
 	path('adm/del.user/', views.api_person_delete),
 	path('adm/set/', views.api_admin_set),
